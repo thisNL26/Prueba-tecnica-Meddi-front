@@ -91,4 +91,4 @@ El desarrollo del backend es libre, el objetivo es crear los endpoints necesario
 
 El backend debe conectarse a la base de datos de MongoDB utilizando mongoose.
 
-mongodb+srv://MeddiTest123:MeddiTest123.@checkpoint.lkqypk0.mongodb.net/?appName=checkpoint
+mongodb+srv://MeddiTest123:<password>@checkpoint.lkqypk0.mongodb.net/?appName=checkpoint
