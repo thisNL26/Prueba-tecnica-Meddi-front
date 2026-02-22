@@ -1,2 +1,2 @@
-export const appName = 'Task Managger by [your_name]'
+export const appName = 'Task Managger by Naim Lopez'
 export const appDescription = 'Tech evaluation for jr. frontend developer'

@@ -6,6 +6,18 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', '@nuxt/ui', 'shadcn-nuxt', '@vite-pwa/nuxt', '@vueuse/nuxt', '@pinia/nuxt'],
+
+  runtimeConfig: {
+    public: {
+      api: {
+        taskManager: '',
+      }
+    }
+  },
+
+
+
+
   css: ['~/assets/css/tailwind.css'],
   vite: {
     plugins: [
