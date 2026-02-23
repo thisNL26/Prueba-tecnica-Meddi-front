@@ -1,18 +1,16 @@
 <script setup lang="ts">
 const { isChecked, setChecked } = useTaskChecked();
 
+import type { Task } from "~/types/task";
+import type { Priority } from "~/types/task";
+
 const props = defineProps<{
-  title: string;
-  description?: string;
-  priority: "Alta" | "Media" | "Baja";
-  dateCreated: string;
-  dateFinish: string;
-  done?: boolean;
+  task: Task;
 }>();
 
-function getColor(state: boolean, priority: string) {
-  if(props.done) state = !state;
-  
+function getColor(state: boolean, priority: Priority) {
+  if (props.task.done) state = !state;
+
   if (state) return "bg-green-500/10 border-green-500/50";
   const priorityClasses: Record<string, string> = {
     Alta: "bg-red-500/10 border-red-500/50",
@@ -26,15 +24,14 @@ function getColor(state: boolean, priority: string) {
 
 <template>
   <GCard
-    :title="title"
-    :class="[getColor(isChecked, priority), 'transition-all']"
+    :title="task.title"
+    :class="[getColor(isChecked, task.priority), 'transition-all']"
   >
-    <div class="flex justify-between items-center">
-      <span class="text-sm font-medium" done="false">{{ description }}</span>
-
+  <div class="flex justify-between items-center">
+      <span class="text-sm font-medium" done="false">{{ task.description }}</span>
       <input
         type="checkbox"
-        :checked="done"
+        :checked="task.done"
         @change="setChecked"
         class="cursor-pointer h-7 w-7"
       />
@@ -44,9 +41,11 @@ function getColor(state: boolean, priority: string) {
       <div
         class="flex gap-2 text-[10px] opacity-50 uppercase font-bold tracking-wider"
       >
-        <span>📅 {{ dateCreated }}</span>
-        <span>🏁 {{ dateFinish }}</span>
+        <span>Creado el {{ task.dateCreated }}</span>
+        <span>- Fecha limite: {{ task.dateFinish }}</span>
       </div>
+      <button>✏️</button>
+      <button>🗑️</button>
     </template>
   </GCard>
 </template>

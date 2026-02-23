@@ -1,4 +1,89 @@
 <script setup lang="ts">
+import type { Task } from '~/types/task'
+
+
+const grupoTareasEjemploAlta = ref<Task[]>([
+  {
+    idTask: "1",
+    title: "Hacer reporte",
+    description: "Enviar antes de las 6pm",
+    priority: "Alta",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  },
+  {
+    idTask: "3",
+    title: "TAREA 2",
+    description: "Enviar antes de las 4:30pm",
+    priority: "Alta",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  }
+])
+const grupoTareasEjemploMedia = ref<Task[]>([
+  {
+    idTask: "1",
+    title: "Hacer reporte",
+    description: "Enviar antes de las 6pm",
+    priority: "Media",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  },
+  {
+    idTask: "3",
+    title: "TAREA 2",
+    description: "Enviar antes de las 4:30pm",
+    priority: "Media",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  }
+])
+const grupoTareasEjemploBaja = ref<Task[]>([
+  {
+    idTask: "1",
+    title: "Hacer reporte",
+    description: "Enviar antes de las 6pm",
+    priority: "Baja",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  },
+  {
+    idTask: "3",
+    title: "TAREA 2",
+    description: "Enviar antes de las 4:30pm",
+    priority: "Baja",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: false,
+  }
+])
+
+const grupoTareasEjemploTerminada = ref<Task[]>([
+  {
+    idTask: "1",
+    title: "Hacer reporte",
+    description: "Enviar antes de las 6pm",
+    priority: "Alta",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: true,
+  },
+  {
+    idTask: "3",
+    title: "TAREA 2",
+    description: "Enviar antes de las 4:30pm",
+    priority: "Alta",
+    dateCreated: "23/02/26",
+    dateFinish: "27/02/26",
+    done: true,
+  }
+])
+
 
 
 
@@ -24,29 +109,10 @@
           <h2>Tareas</h2>
           <div class="all-task-list">
             <div class="all-task-list flex flex-col gap-4">
-              <details open class="group">                
-                <summary class="flex items-center cursor-pointer list-none">
-                  <h3 class="text-lg font-bold">Alta</h3>
-                  <span class="ml-2 transition-transform group-open:rotate-180">v</span>
-                </summary>
-                <ul class="flex flex-col gap-2 mt-2">
-                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Alta" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
-                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Alta" date-created="22/02/26" date-finish="27/03/26" done></CardTask></li>
-                </ul>                
-              </details>
-              <details open class="group">                
-                <summary class="flex items-center cursor-pointer list-none">
-                  <h3 class="text-lg font-bold">Media</h3>
-                  <span class="ml-2 transition-transform group-open:rotate-180">v</span>
-                </summary>
-                <ul class="flex flex-col gap-2 mt-2">
-                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Media" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
-                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Media" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
-                </ul>                
-              </details>
-              
-
-              
+              <TaskGroup title="Alta" :tasks="grupoTareasEjemploAlta" />
+              <TaskGroup title="Media" :tasks="grupoTareasEjemploMedia" />
+              <TaskGroup title="Baja" :tasks="grupoTareasEjemploBaja" />
+              <TaskGroup title="Completadas" :tasks="grupoTareasEjemploTerminada" />
             </div>
           </div>
           <button>Añadir tarea</button>
