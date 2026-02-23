@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+
+
+</script>
 
 <template>
   <!-- Como iniciativa quise añadir etiquetas semanticas para una mejor UX mas accesible :D -->
@@ -20,48 +24,29 @@
           <h2>Tareas</h2>
           <div class="all-task-list">
             <div class="all-task-list flex flex-col gap-4">
-              <details open class="group">
+              <details open class="group">                
                 <summary class="flex items-center cursor-pointer list-none">
                   <h3 class="text-lg font-bold">Alta</h3>
-                  <span class="ml-2 transition-transform group-open:rotate-180"
-                    >v</span
-                  >
+                  <span class="ml-2 transition-transform group-open:rotate-180">v</span>
                 </summary>
                 <ul class="flex flex-col gap-2 mt-2">
-                  <li class="task-item">1</li>
-                  <li class="task-item">2</li>
-                  <li class="task-item">3</li>
-                  <li class="task-item">4</li>
-                </ul>
+                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Alta" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
+                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Alta" date-created="22/02/26" date-finish="27/03/26" done></CardTask></li>
+                </ul>                
               </details>
-              <details open class="group">
+              <details open class="group">                
                 <summary class="flex items-center cursor-pointer list-none">
                   <h3 class="text-lg font-bold">Media</h3>
-                  <span class="ml-2 transition-transform group-open:rotate-180"
-                    >v</span
-                  >
+                  <span class="ml-2 transition-transform group-open:rotate-180">v</span>
                 </summary>
                 <ul class="flex flex-col gap-2 mt-2">
-                  <li class="task-item">1</li>
-                  <li class="task-item">2</li>
-                  <li class="task-item">3</li>
-                  <li class="task-item">4</li>
-                </ul>
+                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Media" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
+                  <li class="task-item"><CardTask title="tarea 1" description="Prueba 123" priority="Media" date-created="22/02/26" date-finish="27/03/26"></CardTask></li>
+                </ul>                
               </details>
-              <details open class="group">
-                <summary class="flex items-center cursor-pointer list-none">
-                  <h3 class="text-lg font-bold">Baja</h3>
-                  <span class="ml-2 transition-transform group-open:rotate-180"
-                    >v</span
-                  >
-                </summary>
-                <ul class="flex flex-col gap-2 mt-2">
-                  <li class="task-item">1</li>
-                  <li class="task-item">2</li>
-                  <li class="task-item">3</li>
-                  <li class="task-item">4</li>
-                </ul>
-              </details>
+              
+
+              
             </div>
           </div>
           <button>Añadir tarea</button>
