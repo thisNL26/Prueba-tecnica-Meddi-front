@@ -26,7 +26,9 @@ const grupoTareasEjemploMedia = ref<Task[]>([
   {
     idTask: "1",
     title: "Hacer reporte",
-    description: "Enviar antes de las 6pm",
+    description: "Lorem ipsum dolor sit amet consectetur adipiscing elit semper, non vehicula fermentum lacinia sociis sed imperdiet molestie nullam, vestibulum enim fringilla sollicitudin nibh lectus ultricies. Viverra vitae hendrerit consequat morbi turpis egestas tempus quis parturient id, in ultrices tempor maecenas dignissim cras feugiat nulla hac, felis laoreet suscipit mattis sagittis a ante fermentum venenatis. Scelerisque pellentesque lobortis nisl posuere justo sodales et rutrum pretium, sed blandit nam risus hac felis eleifend euismod ut, in enim orci cubilia facilisis etiam class pulvinar.",
+    //Easter egg :D, Prueba de como reacciona el elemento con textos largos.
+
     priority: "Media",
     dateCreated: "23/02/26",
     dateFinish: "27/02/26",

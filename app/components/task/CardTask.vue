@@ -25,10 +25,10 @@ function getColor(state: boolean, priority: Priority) {
 <template>
   <GCard
     :title="task.title"
-    :class="[getColor(isChecked, task.priority), 'transition-all']"
+    :class="[getColor(isChecked, task.priority), 'transition-all','[&_h3]:text-base [&_h3]:font-extrabold [&_h3]:uppercase [&_h3]:tracking-widest']"
   >
   <div class="flex justify-between items-center">
-      <span class="text-sm font-medium" done="false">{{ task.description }}</span>
+      <span class="text-sm font-medium " done="false">{{ task.description }}</span>
       <input
         type="checkbox"
         :checked="task.done"
@@ -37,15 +37,45 @@ function getColor(state: boolean, priority: Priority) {
       />
     </div>
 
+
+
+
     <template #footer>
-      <div
-        class="flex gap-2 text-[10px] opacity-50 uppercase font-bold tracking-wider"
-      >
-        <span>Creado el {{ task.dateCreated }}</span>
-        <span>- Fecha limite: {{ task.dateFinish }}</span>
+      <div class="mt-2 flex w-full items-center justify-between border-t border-white/5 pt-3">
+        <div class="flex items-center gap-3 text-[10px] font-bold uppercase tracking-tight opacity-60">
+          <div class="flex items-center gap-1">
+            <span class="opacity-70">📅</span> {{ task.dateCreated }}
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="opacity-70">🏁</span> {{ task.dateFinish }}
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <button 
+            class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-white/10 active:scale-95"
+            title="Editar tarea"
+          >
+            <span class="text-xs">✏️</span>
+          </button>
+          <button 
+            class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-red-500/20 active:scale-95"
+            title="Eliminar tarea"
+          >
+            <span class="text-xs">🗑️</span>
+          </button>
+        </div>
       </div>
-      <button>✏️</button>
-      <button>🗑️</button>
     </template>
+
+
+
+
+
+
+
+
+
+
   </GCard>
 </template>
