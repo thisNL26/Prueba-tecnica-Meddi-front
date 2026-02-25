@@ -1,92 +1,33 @@
 <script setup lang="ts">
-import type { Task } from '~/types/task'
+const {
+  tasksAlta,
+  tasksMedia,
+  tasksBaja,
+  tasksCompleted,
+  isLoading,
+  fetchTasks,
+  error,
+} = useTasks();
 
+onMounted(() => {
+  fetchTasks();
+});
 
-const grupoTareasEjemploAlta = ref<Task[]>([
-  {
-    idTask: "1",
-    title: "Hacer reporte",
-    description: "Enviar antes de las 6pm",
-    priority: "Alta",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  },
-  {
-    idTask: "3",
-    title: "TAREA 2",
-    description: "Enviar antes de las 4:30pm",
-    priority: "Alta",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  }
-])
-const grupoTareasEjemploMedia = ref<Task[]>([
-  {
-    idTask: "1",
-    title: "Hacer reporte",
-    description: "Lorem ipsum dolor sit amet consectetur adipiscing elit semper, non vehicula fermentum lacinia sociis sed imperdiet molestie nullam, vestibulum enim fringilla sollicitudin nibh lectus ultricies. Viverra vitae hendrerit consequat morbi turpis egestas tempus quis parturient id, in ultrices tempor maecenas dignissim cras feugiat nulla hac, felis laoreet suscipit mattis sagittis a ante fermentum venenatis. Scelerisque pellentesque lobortis nisl posuere justo sodales et rutrum pretium, sed blandit nam risus hac felis eleifend euismod ut, in enim orci cubilia facilisis etiam class pulvinar.",
-    //Easter egg :D, Prueba de como reacciona el elemento con textos largos.
+watch(tasksAlta, (nuevasTareas) => {
+  console.log("¡Llegaron tareas altas!", nuevasTareas);
+});
 
-    priority: "Media",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  },
-  {
-    idTask: "3",
-    title: "TAREA 2",
-    description: "Enviar antes de las 4:30pm",
-    priority: "Media",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  }
-])
-const grupoTareasEjemploBaja = ref<Task[]>([
-  {
-    idTask: "1",
-    title: "Hacer reporte",
-    description: "Enviar antes de las 6pm",
-    priority: "Baja",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  },
-  {
-    idTask: "3",
-    title: "TAREA 2",
-    description: "Enviar antes de las 4:30pm",
-    priority: "Baja",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: false,
-  }
-])
+watch(tasksMedia, (nuevasTareas) => {
+  console.log("¡Llegaron tareas Medias!", nuevasTareas);
+});
 
-const grupoTareasEjemploTerminada = ref<Task[]>([
-  {
-    idTask: "1",
-    title: "Hacer reporte",
-    description: "Enviar antes de las 6pm",
-    priority: "Alta",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: true,
-  },
-  {
-    idTask: "3",
-    title: "TAREA 2",
-    description: "Enviar antes de las 4:30pm",
-    priority: "Alta",
-    dateCreated: "23/02/26",
-    dateFinish: "27/02/26",
-    done: true,
-  }
-])
+watch(tasksBaja, (nuevasTareas) => {
+  console.log("¡Llegaron tareas Bajas!", nuevasTareas);
+});
 
-
+watch(tasksCompleted, (nuevasTareas) => {
+  console.log("¡Llegaron tareas completadas!", nuevasTareas);
+});
 
 
 </script>
@@ -104,18 +45,34 @@ const grupoTareasEjemploTerminada = ref<Task[]>([
     <main>
       <section class="barra-de-busqueda">
         <input type="text" placeholder="Buscar tarea por titulo..." />
-        <button>⚙️</button>
+        <button>📄</button>
       </section>
       <section class="taskApp">
         <div class="tasklist-container">
-          <h2>Tareas</h2>
-          <div class="all-task-list">
-            <div class="all-task-list flex flex-col gap-4">
-              <TaskGroup title="Alta" :tasks="grupoTareasEjemploAlta" />
-              <TaskGroup title="Media" :tasks="grupoTareasEjemploMedia" />
-              <TaskGroup title="Baja" :tasks="grupoTareasEjemploBaja" />
-              <TaskGroup title="Completadas" :tasks="grupoTareasEjemploTerminada" />
+          <h2 class="text-2xl font-bold mb-4 mt-4">Tareas</h2>
+          <div class="all-task-list overflow-y-auto max-h-[70vh] pr-2">
+            <div v-if="isLoading" class="flex flex-col items-center justify-center py-20 opacity-50" >
+              <div class="animate-spin text-2xl mb-2">⚙️</div>
+              <p>Cargando tareas...</p>
             </div>
+
+            <div v-else-if="error" class="flex flex-col items-center justify-center py-10 text-red-400">
+              <div class="text-3xl mb-2">⚠️</div>
+              <p class="font-bold mb-1">¡Ups! Algo salió mal</p>
+              <p class="text-sm opacity-80 mb-4">{{ error }}</p>
+              <button @click="fetchTasks" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-md text-sm transition-colors border border-white/5">
+                Intentar de nuevo ↻
+              </button>
+            </div>
+
+            <div v-else class="flex flex-col gap-4">
+              <TaskGroup title="Alta" :tasks="tasksAlta" />
+              <TaskGroup title="Media" :tasks="tasksMedia" />
+              <TaskGroup title="Baja" :tasks="tasksBaja" />
+              <TaskGroup title="Completadas" :tasks="tasksCompleted" />
+            </div>
+
+
           </div>
           <button>Añadir tarea</button>
         </div>

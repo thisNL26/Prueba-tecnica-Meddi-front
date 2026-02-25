@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const { isChecked, setChecked } = useTaskChecked();
 
-import type { Task } from "~/types/task";
-import type { Priority } from "~/types/task";
+import type { Task, Priority } from "~/types/task";
 
 const props = defineProps<{
   task: Task;
@@ -27,13 +26,13 @@ function getColor(state: boolean, priority: Priority) {
     :title="task.title"
     :class="[getColor(isChecked, task.priority), 'transition-all','[&_h3]:text-base [&_h3]:font-extrabold [&_h3]:uppercase [&_h3]:tracking-widest']"
   >
-  <div class="flex justify-between items-center">
-      <span class="text-sm font-medium " done="false">{{ task.description }}</span>
+  <div class="flex justify-between items-center gap-5">
+      <span class="text-sm font-medium flex-1" done="false">{{ task.description }}</span>
       <input
         type="checkbox"
         :checked="task.done"
         @change="setChecked"
-        class="cursor-pointer h-7 w-7"
+        class="cursor-pointer h-7 w-7 active:scale-80 transition-all"
       />
     </div>
 
@@ -67,15 +66,6 @@ function getColor(state: boolean, priority: Priority) {
         </div>
       </div>
     </template>
-
-
-
-
-
-
-
-
-
 
   </GCard>
 </template>

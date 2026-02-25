@@ -1,23 +1,10 @@
 <script setup lang="ts">
-import { appName } from '~/constants'
-const { getAllTasks } = useTasks();
-
-const testConnection = async () => {
-  console.log('Iniciando petición al backend...');
-  const tasks = await getAllTasks();
-  console.log('¡Éxito! Datos recibidos desde MongoDB:', tasks);
-};
-
-testConnection();
-
+import { appName } from '~/constants';
 
 useHead({
   title: appName,
 })
 
-
-const config = useRuntimeConfig();
-console.log('Mi puerto de tareas es:', config.public.api.taskManager);
 </script>
 
 <template>
