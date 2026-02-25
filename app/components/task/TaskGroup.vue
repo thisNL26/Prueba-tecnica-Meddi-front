@@ -11,7 +11,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <details open class="group border border-white/5 rounded-lg p-2">
+  <details open class="group p-2">
     <summary class="flex items-center cursor-pointer list-none select-none">
       <h3 class="text-lg font-bold">{{ title }}</h3>
       <span
@@ -19,7 +19,7 @@ const props = defineProps<{
       >
         ▼
       </span>
-      <span class="ml-auto text-xs">{{ tasks.length }} tareas</span>
+      <span class="ml-auto text-m">{{ tasks.length }} tareas</span>
     </summary>
 
     <ul class="flex flex-col gap-2 mt-3">
