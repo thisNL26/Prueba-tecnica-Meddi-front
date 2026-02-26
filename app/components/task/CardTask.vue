@@ -1,40 +1,63 @@
 <script setup lang="ts">
-const { isChecked, setChecked } = useTaskChecked();
-
 import type { Task, Priority } from "~/types/task";
+
+const { updateTask, deleteTask } = useTasks();
 
 const props = defineProps<{
   task: Task;
 }>();
 
-function getColor(state: boolean, priority: Priority) {
-  if (props.task.done) state = !state;
 
-  if (state) return "bg-green-500/10 border-green-500/50";
-  const priorityClasses: Record<string, string> = {
+//Asignación de color
+function getColor(done: boolean, priority: Priority) {
+  if (done) {
+    return "bg-green-500/10 border-green-500/50";
+  }
+
+  const priorityClasses: Record<Priority, string> = {
     Alta: "bg-red-500/10 border-red-500/50",
     Media: "bg-yellow-500/10 border-yellow-500/50",
     Baja: "bg-blue-500/10 border-blue-500/50",
   };
 
-  return priorityClasses[priority] || "bg-slate-500/10 border-slate-500/50";
+  return priorityClasses[priority];
 }
+
+// Actualización de tarjetas Check/NoCheck
+
+const updateState = async () => {
+  const updatedTask: Task = {
+    ...props.task,
+    done: !props.task.done
+  };
+
+  await updateTask(updatedTask);
+};
+
+// Eliminar tarea
+const handleDelete = async () => {
+  await deleteTask(props.task.idTask);
+  window.alert("Tarea eliminada");
+};
+
 </script>
 
 <template>
   <GCard
-    :title="task.title"
-    :class="[getColor(isChecked, task.priority), 'transition-all','[&_h3]:text-base [&_h3]:font-extrabold [&_h3]:uppercase [&_h3]:tracking-widest']"
-  >
+  :title="task.title"
+  :class="[
+    getColor(task.done, task.priority), 'transition-all', '[&_h3]:text-base [&_h3]:font-extrabold [&_h3]:uppercase [&_h3]:tracking-widest'
+  ]"
+>
   <div class="flex justify-between items-center gap-5">
       <span class="text-sm font-medium flex-1" done="false">{{ task.description }}</span>
       <input
         type="checkbox"
         :checked="task.done"
-        @change="setChecked"
+        @change="updateState"
         class="cursor-pointer h-7 w-7 active:scale-80 transition-all"
       />
-    </div>
+  </div>
 
 
 
@@ -58,6 +81,7 @@ function getColor(state: boolean, priority: Priority) {
             <span class="text-xs">✏️</span>
           </button>
           <button 
+            @click="handleDelete"
             class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-red-500/20 active:scale-95"
             title="Eliminar tarea"
           >

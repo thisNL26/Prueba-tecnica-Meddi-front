@@ -1,29 +1,58 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
+import type { Task } from '~/types/task';
 
-/*
-  Llamada a la API 
-    Asi se obtienen las tareas
-*/
+//Llamada a la API
 
 const {
+  //Filtrados
   tasksAlta,
   tasksMedia,
   tasksBaja,
   tasksCompleted,
+  
+  //Estados
   isLoading,
-  fetchTasks,
   error,
+  
+  //Acciones
+  fetchTasks,
+  addTask 
 } = useTasks();
 
 onMounted(() => {
   fetchTasks();
 });
 
+
+
+//Probar crear una tareas
+
+
+const testCrearTarea = async () => {
+  
+  const nuevaTareaFake: Partial<Task> = {
+    title: "Tarea de prueba comopletadas",
+    description: "Esta tarea fue creada desde el botón",
+    priority: "Baja", 
+    dateFinish: "25/07/2026",
+    done: false
+  };
+  
+  const exito = await addTask(nuevaTareaFake);
+  
+  if (exito) {
+    console.log("La tarea debería estar en la lista.");
+    alert("Tarea creada con éxito (Revisa la consola y la lista)");
+  } else {
+    console.error("Algo falló en el camino.");
+  }
+};
+
 /*
-  Logica de la barra de busqueda 
-    La barrs necesita guardar una variable 
+Logica de la barra de busqueda 
+La barrs necesita guardar una variable 
     Ademas el boton de filtros despliega su contenido segun su estado
 */
 
@@ -36,7 +65,6 @@ watchDebounced( searchQuery, (valorNuevo) => {
   { debounce: 500, maxWait: 1000 }
 )
 
-
 // Boton: Filtros
 
 const showFilters = ref(false);
@@ -44,12 +72,6 @@ const showFilters = ref(false);
 const toggleFilters = () => {
   showFilters.value = !showFilters.value
 }
-
-
-
-
-
-
 
 </script>
 
@@ -64,17 +86,22 @@ const toggleFilters = () => {
     </header>
 
     <main>
-     
+
+            <!-- Boton crear tarea de prueba -->
+          <button 
+              @click="testCrearTarea"
+              class="bg-blue-500"
+            >Crear Tarea de Pueba
+          </button>          
+
       <section class="barra-de-busqueda m-10">
         <GSearchBar 
         v-model="searchQuery" 
         @click:filter="toggleFilters"
-      />
-      
+      /> 
         <div v-if="showFilters" class="mt-2 p-4 border rounded-md bg-white/5">
           <p class="text-sm text-gray-400">Opciones de filtrado pendientes...</p>
         </div>
-      
       </section>
 
       <section class="taskApp">
@@ -82,6 +109,8 @@ const toggleFilters = () => {
 
           <!-- Aqui van el contenedor de todas las tareas -->
           <div class="all-task-list overflow-y-auto max-h-[60vh] pr-2">
+
+            <!-- Opcional, para pulir el codigo se puede crear un componente "LoadingTask" y "AlertError", por lo pronto se maneja rapodp con un div-->
             <div
               v-if="isLoading"
               class="flex flex-col items-center justify-center py-20 opacity-50"

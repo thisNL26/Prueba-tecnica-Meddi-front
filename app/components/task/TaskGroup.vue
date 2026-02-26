@@ -27,8 +27,8 @@ const props = defineProps<{
         <CardTask :task="tarea" />
       </li>
 
-      <p v-if="tasks.length === 0" class="text-xs text-center opacity-30 py-4">
-        No hay tareas pendientes aquí.
+      <p v-if="tasks.length === 0" class="text-m text-center opacity-30 py-4">
+        No hay tareas aquí.
       </p>
     </ul>
   </details>
