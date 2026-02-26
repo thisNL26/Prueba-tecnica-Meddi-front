@@ -76,8 +76,9 @@ const toggleFilters = () => {
 </script>
 
 <template>
-  <!-- Como iniciativa quise añadir etiquetas semanticas para una mejor UX mas accesible :D -->
-  <GPageContainer>
+  <div class="task-manager-page">
+     <!-- Como iniciativa quise añadir etiquetas semanticas para una mejor UX mas accesible :D -->
+      <GPageContainer>
     <header>
       <h1 class="text-3xl font-bold tracking-tight">Administrador de tareas</h1>
       <p class="text-muted-foreground">
@@ -152,4 +153,5 @@ const toggleFilters = () => {
     </main>
     <footer></footer>
   </GPageContainer>
+   </div>
 </template>

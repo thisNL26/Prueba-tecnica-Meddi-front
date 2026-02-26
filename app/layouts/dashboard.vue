@@ -59,15 +59,17 @@ const items = ref([
 </script>
 
 <template>
-  <GSidebarProvider :default-open="true">
-    <template #sidebar>
-      <GAppSidebar :items="items" />
-    </template>
-    <template #header>
-      <div>breadcrumbs</div>
-    </template>
-    <template #default>
-      <slot />
-    </template>
-  </GSidebarProvider>
+  <div>
+      <GSidebarProvider :default-open="true">
+      <template #sidebar>
+        <GAppSidebar :items="items" />
+      </template>
+      <template #header>
+        <div>breadcrumbs</div>
+      </template>
+      <template #default>
+        <slot />
+      </template>
+    </GSidebarProvider>
+  </div>
 </template>
