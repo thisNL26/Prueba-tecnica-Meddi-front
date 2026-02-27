@@ -12,11 +12,6 @@ export const useTasks = () => {
   const config = useRuntimeConfig();
   const apiBase = config.public.api.taskManager;
 
-  const tasksAlta = computed(() => tasks.value.filter(t => t.priority === 'Alta' && !t.done));
-  const tasksMedia = computed(() => tasks.value.filter(t => t.priority === 'Media' && !t.done));
-  const tasksBaja = computed(() => tasks.value.filter(t => t.priority === 'Baja' && !t.done));
-  const tasksCompleted = computed(() => tasks.value.filter(t => t.done));
-
   // READ
 
   const fetchTasks = async () => {
@@ -94,10 +89,6 @@ export const useTasks = () => {
 
   return {
     tasks,
-    tasksAlta,
-    tasksMedia,
-    tasksBaja,
-    tasksCompleted,
     isLoading,
     error,
     fetchTasks,

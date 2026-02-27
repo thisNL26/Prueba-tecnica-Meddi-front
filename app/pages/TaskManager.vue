@@ -4,15 +4,10 @@ import { watchDebounced } from "@vueuse/core";
 import { useTasks } from "~/composables/useTask";
 import { usePopUp } from "~/composables/usePopUp";
 
-//Llamada a la API
+//Llamada a la API & Data
 
 const {
-  //Filtrados
-
-  tasksAlta,
-  tasksMedia,
-  tasksBaja,
-  tasksCompleted,
+  tasks,
 
   //Estados
   isLoading,
@@ -22,6 +17,20 @@ const {
   fetchTasks,
 } = useTasks();
 
+const filters = useTaskFilters(tasks);
+
+const {
+  searchQuery,
+  order,
+  sortBy,
+  tasksAlta,
+  tasksMedia,
+  tasksBaja,
+  tasksCompleted,
+  processedTasks,
+  isGroupedView,
+} = filters;
+
 onMounted(() => {
   fetchTasks();
 });
@@ -30,15 +39,8 @@ onMounted(() => {
 
 const { state: popUpState, open: openPopUp, close: closePopUp } = usePopUp();
 
-/*
-Logica de la barra de busqueda 
-La barrs necesita guardar una variable 
-    Ademas el boton de filtros despliega su contenido segun su estado
-*/
-
 // Barra de busqueda
 
-const searchQuery = ref("");
 watchDebounced(
   searchQuery,
   (valorNuevo) => {
@@ -47,14 +49,13 @@ watchDebounced(
   { debounce: 500, maxWait: 1000 },
 );
 
-// Boton: Filtros
+//Filtros
 
 const showFilters = ref(false);
 
 const toggleFilters = () => {
   showFilters.value = !showFilters.value;
 };
-
 </script>
 
 <template>
@@ -71,16 +72,46 @@ const toggleFilters = () => {
       </header>
 
       <main>
-
         <GPopUp :state="popUpState" :close="closePopUp" />
 
         <section class="barra-de-busqueda m-10">
+          
           <GSearchBar v-model="searchQuery" @click:filter="toggleFilters" />
+
           <div v-if="showFilters" class="mt-2 p-4 border rounded-md bg-white/5">
-            <p class="text-sm text-gray-400">
-              Opciones de filtrado pendientes...
-            </p>
+            <h3 class="mb-10">Herramientas de busqueda</h3>
+            <div class="allfilters flex flex-col md:flex-row items-end gap-4 mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
+
+              <div class="pirorityFilter">
+                <input
+                  class="m-2"
+                  type="checkbox"
+                  id="group-by-priority"
+                  v-model="isGroupedView"
+                />
+                <label for="group-by-priority">Agrupar</label>
+              </div>
+              
+              <div class="order-by">
+                <label for="select-order-by">Ordenar por:</label>
+                <select v-model="sortBy" name="Ordenar por" id="select-order-by">
+                  <option value="title">Título</option>
+                  <option value="createdAt">Fecha de creación</option>
+                  <option value="dateFinish">Fecha de finalización</option>
+                </select>
+              </div>
+              
+              <div class="order-direction">
+                <label for="select-order-direction">Orden</label>
+                <select v-model="order" name="Direccion" id="select-order-direction">
+                  <option value="asc">Ascendente</option>
+                  <option value="desc">Descendente</option>
+                </select>
+
+              </div>
+            </div>
           </div>
+      
         </section>
 
         <section class="taskApp">
@@ -114,17 +145,23 @@ const toggleFilters = () => {
                 </button>
               </div>
 
-              <div v-else class="flex flex-col gap-4">
-                <TaskGroup title="Alta" :tasks="tasksAlta" />
-                <TaskGroup title="Media" :tasks="tasksMedia" />
-                <TaskGroup title="Baja" :tasks="tasksBaja" />
-                <TaskGroup title="Completadas" :tasks="tasksCompleted" />
+              <div v-else class="flex flex-col gap-4 tareas">
+                <div v-if="isGroupedView" class="vista-agrupada">
+                  <TaskGroup title="Alta" :tasks="tasksAlta" />
+                  <TaskGroup title="Media" :tasks="tasksMedia" />
+                  <TaskGroup title="Baja" :tasks="tasksBaja" />
+                  <TaskGroup title="Completadas" :tasks="tasksCompleted" />
+                </div>
+                <div v-else class="vista-suelta">
+                  <TaskGroup title="Todas las tareas" :tasks="processedTasks" />
+                </div>
               </div>
             </div>
 
-            <button 
+            <button
               @click="openPopUp('create')"
-              class="px-4 py-2 mt-10 text-sm font-bold text-white border-none rounded-lg bg-[#1a91da] hover:bg-[#08588a] transition-all active:scale-95">
+              class="px-4 py-2 mt-10 text-sm font-bold text-white border-none rounded-lg bg-[#1a91da] hover:bg-[#08588a] transition-all active:scale-95"
+            >
               Añadir tarea
             </button>
           </GCard>
