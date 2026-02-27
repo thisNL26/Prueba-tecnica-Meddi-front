@@ -78,8 +78,7 @@ const handleSubmit = async () => {
       <button
         type="button"
         @click="$emit('close')"
-        class="px-4 py-2 text-sm font-semibold text-white/70 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:text-white transition-all active:scale-95"
-      >
+        class="px-4 py-2 text-sm font-semibold text-white/70 bg-black border border-white/10 rounded-lg hover:bg-white/10 hover:text-white transition-all active:scale-95">
         Cancelar
       </button>
 
