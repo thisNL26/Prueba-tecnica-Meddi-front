@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Task, Priority } from "~/types/task";
 
-const { updateTask, deleteTask } = useTasks();
+const { updateTask } = useTasks();
 
 const props = defineProps<{
   task: Task;
 }>();
+
 
 
 //Asignación de color
@@ -35,10 +36,8 @@ const updateState = async () => {
 };
 
 // Eliminar tarea
-const handleDelete = async () => {
-  await deleteTask(props.task.idTask);
-  window.alert("Tarea eliminada");
-};
+const { state: popUpState, open: openPopUp, close: closePopUp } = usePopUp();
+
 
 </script>
 
@@ -63,6 +62,8 @@ const handleDelete = async () => {
 
 
     <template #footer>
+
+      <GPopUp :state="popUpState" :close="closePopUp" />
       <div class="mt-2 flex w-full items-center justify-between border-t border-white/5 pt-3">
         <div class="flex items-center gap-3 text-[10px] font-bold uppercase tracking-tight opacity-60">
           <div class="flex items-center gap-1">
@@ -76,14 +77,15 @@ const handleDelete = async () => {
         <div class="flex items-center gap-1">
           <button 
             class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-white/10 active:scale-95"
+            @click="openPopUp('edit', task)"
             title="Editar tarea"
-          >
+            >
             <span class="text-xs">✏️</span>
           </button>
           <button 
-            @click="handleDelete"
-            class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-red-500/20 active:scale-95"
-            title="Eliminar tarea"
+          class="flex h-8 w-8 items-center justify-center rounded-md transition-colors hover:bg-red-500/20 active:scale-95"
+          @click="openPopUp('delete', task)"
+          title="Eliminar tarea"
           >
             <span class="text-xs">🗑️</span>
           </button>
