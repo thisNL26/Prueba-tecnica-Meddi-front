@@ -6,16 +6,7 @@ import { usePopUp } from "~/composables/usePopUp";
 
 //Llamada a la API & Data
 
-const {
-  tasks,
-
-  //Estados
-  isLoading,
-  error,
-
-  //Acciones
-  fetchTasks,
-} = useTasks();
+const { tasks, isLoading, error, fetchTasks } = useTasks();
 
 const filters = useTaskFilters(tasks);
 
@@ -30,6 +21,32 @@ const {
   processedTasks,
   isGroupedView,
 } = filters;
+
+const { 
+  priorityData, 
+  statusData, 
+  topCreatedDays 
+} = useDataChartTask(tasks);
+
+
+// Prueba de extraccion de datos para charts, se coloca un pequeño retraso para que la respuesta llegue
+setTimeout(() => {
+  console.log("Tareas por prioridad");
+  console.log("Alta: ", priorityData.value.Alta);
+  console.log("Media: ", priorityData.value.Media);
+  console.log("Baja: ", priorityData.value.Baja);
+  
+  console.log("Tareas por status");
+  console.log("Faltantes: ", statusData.value.pendientes);
+  console.log("Completadas: ", statusData.value.completadas);
+  
+  console.log("////////////////////////EL CALCULO DE LA SEMANA ESTA INICIANDO EN DIA LUNES////////////////////////");
+  console.log("Top 3 dias de la semana con mas tareas creadas");
+  console.log(topCreatedDays.value);
+
+
+
+}, 500);
 
 onMounted(() => {
   fetchTasks();
@@ -75,13 +92,13 @@ const toggleFilters = () => {
         <GPopUp :state="popUpState" :close="closePopUp" />
 
         <section class="barra-de-busqueda m-10">
-          
           <GSearchBar v-model="searchQuery" @click:filter="toggleFilters" />
 
           <div v-if="showFilters" class="mt-2 p-4 border rounded-md bg-white/5">
             <h3 class="mb-10">Herramientas de busqueda</h3>
-            <div class="allfilters flex flex-col md:flex-row items-end gap-4 mb-8 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
-
+            <div
+              class="allfilters flex flex-col md:flex-row items-end gap-4 mb-8 p-4 rounded-2xl border border-zinc-800"
+            >
               <div class="pirorityFilter">
                 <input
                   class="m-2"
@@ -91,30 +108,36 @@ const toggleFilters = () => {
                 />
                 <label for="group-by-priority">Agrupar</label>
               </div>
-              
+
               <div class="order-by">
                 <label for="select-order-by">Ordenar por:</label>
-                <select v-model="sortBy" name="Ordenar por" id="select-order-by">
+                <select
+                  v-model="sortBy"
+                  name="Ordenar por"
+                  id="select-order-by"
+                >
                   <option value="title">Título</option>
                   <option value="createdAt">Fecha de creación</option>
                   <option value="dateFinish">Fecha de finalización</option>
                 </select>
               </div>
-              
+
               <div class="order-direction">
                 <label for="select-order-direction">Orden</label>
-                <select v-model="order" name="Direccion" id="select-order-direction">
+                <select
+                  v-model="order"
+                  name="Direccion"
+                  id="select-order-direction"
+                >
                   <option value="asc">Ascendente</option>
                   <option value="desc">Descendente</option>
                 </select>
-
               </div>
             </div>
           </div>
-      
         </section>
 
-        <section class="taskApp">
+        <section class="taskApp m-5 grid gap-4 md:grid-cols-[75%_25%]">
           <GCard
             title="Tareas"
             class="[&_h3]:text-2xl [&_h3]:font-bold :[&_h3]mb-4 [&_h3]:mt-4"
